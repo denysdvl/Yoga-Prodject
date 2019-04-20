@@ -13,7 +13,6 @@ window.addEventListener("DOMContentLoaded", function () {
     }
 
     hideTabContent(1);
-
     function showTabContent(a) {
         if (tabContent[a].classList.contains("hide")) {
             tabContent[a].classList.remove("hide");
@@ -22,11 +21,13 @@ window.addEventListener("DOMContentLoaded", function () {
     }
     info.addEventListener("click", function (event) {
         let target = event.target;
+        console.log(target);
         if (target && target.classList.contains("info-header-tab")) {
             for (let i = 0; i < tab.length; i++) {
                 if (target == tab[i]) {
                     hideTabContent(0);
                     showTabContent(i);
+                    
                 }
             }
         }
@@ -82,18 +83,29 @@ window.addEventListener("DOMContentLoaded", function () {
     ///////////modal
     let btnMore = document.querySelector(".more"),
     modal = document.querySelector(".overlay"),
-    btnClose = document.querySelector(".popup-close");
+    btnClose = document.querySelector(".popup-close"),
+    descBtn =document.querySelectorAll(".description-btn");
 
-    btnMore.addEventListener('click', function(){
-        modal.style.display = "block";
-        this.classList.add("more-splash");
-        document.body.style.overflow = "hidden";
-    });
+ 
+
+
+   function openModal(){
+    modal.style.display = "block";
+    btnMore.classList.add("more-splash");
+    document.body.style.overflow = "hidden";
+    }
+    btnMore.addEventListener('click', openModal); 
+     descBtn[0].addEventListener('click', openModal); 
+     descBtn[1].addEventListener('click', openModal); 
+     descBtn[2].addEventListener('click', openModal); 
+     descBtn[3].addEventListener('click', openModal); 
+    console.log(descBtn);
+ 
 
    btnClose.addEventListener('click', function(){
     modal.style.display = "none";
     btnMore.classList.remove("more-splash");
     document.body.style.overflow = " ";
    });
-
+  
 });
