@@ -1,6 +1,6 @@
 window.addEventListener("DOMContentLoaded", function () {
     "use strict";
-
+    ///////////////////////tab menu
     let tab = document.querySelectorAll(".info-header-tab"),
         info = document.querySelector(".info-header"),
         tabContent = document.querySelectorAll(".info-tabcontent");
@@ -13,7 +13,6 @@ window.addEventListener("DOMContentLoaded", function () {
     }
 
     hideTabContent(1);
-
 
     function showTabContent(a) {
         if (tabContent[a].classList.contains("hide")) {
@@ -30,6 +29,53 @@ window.addEventListener("DOMContentLoaded", function () {
                     showTabContent(i);
                 }
             }
-        } 
+        }
     });
+
+    ///////////////////Timer
+
+    let deadline = "2019-04-25";
+
+    function getTimeRemaining(endtime) {
+        let t = Date.parse(endtime) - Date.parse(new Date());
+        let seconds, minutes, hours;
+        if (t <= 0) {
+            seconds = "00";
+            minutes = "00";
+            hours = "00";
+        } else {
+            seconds = Math.floor((t / 1000) % 60);
+            minutes = Math.floor((t / 1000 / 60) % 60);
+            hours = Math.floor(t / (1000 * 60 * 60));
+        }
+
+        return {
+            'total': t,
+            'seconds': seconds,
+            'minutes': minutes,
+            'hours': hours
+        };
+
+    }
+
+    function setClock(id, endtime) {
+        let time = document.getElementById(id),
+            seconds = time.querySelector('.seconds'),
+            minutes = time.querySelector('.minutes'),
+            hours = time.querySelector('.hours'),
+            timeInterval = setInterval(updateClock, 1000);
+
+        function updateClock() {
+            let t = getTimeRemaining(endtime);
+            seconds.textContent = t.seconds;
+            minutes.textContent = t.minutes;
+            hours.textContent = t.hours;
+            if (t.total <= 0) {
+                clearInterval(timeInterval);
+            }
+
+        }
+
+    }
+    setClock('timer', deadline);
 });
