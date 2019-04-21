@@ -111,7 +111,7 @@ window.addEventListener("DOMContentLoaded", function () {
         failure: "Что-то пошло не так..."
     };
     let form = document.querySelector('.main-form'),
-        contactForm = document.querySelector('.form'),
+        contact = document.querySelector('#form'),
         input = form.getElementsByTagName('input'),
         statusMessage = document.createElement('div');
 
@@ -147,19 +147,21 @@ window.addEventListener("DOMContentLoaded", function () {
         for (let i = 0; i < input.length; i++) {
             input[i].value = '';
         }
-        console.log(7);
     }
-
+    
     form.addEventListener('submit', function (event) {
         let eventForm = event,
             target = event.target;
         postServerForm(eventForm, target);
     });
-
-    contactForm.addEventListener('submit', function (event) {
+   
+    contact.addEventListener('submit', function (event) {
         let eventForm = event,
             target = event.target;
         postServerForm(eventForm, target);
+        setTimeout(() => {
+            this.removeChild(statusMessage);
+        }, 3000);
     });
 
 });
