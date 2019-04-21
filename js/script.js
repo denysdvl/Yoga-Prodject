@@ -101,7 +101,6 @@ window.addEventListener("DOMContentLoaded", function () {
         modal.style.display = "none";
         btnMore.classList.remove("more-splash");
         document.body.style.overflow = "";
-        form.removeChild(statusMessage);
     });
 
     ////////////////Form
@@ -121,47 +120,59 @@ window.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
         console.log(event.target);
         targetEvent.appendChild(statusMessage);
-        let request = new XMLHttpRequest();
-        request.open('POST', 'server.php');
-        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        let dataForm = new FormData(targetEvent);
 
-        let formData = new FormData(targetEvent);
-        console.log(formData);
-        let obj = {};
-        formData.forEach(function (value, key) {
-            obj[key] = value;
-        });
-        console.log(obj);
-        let json = JSON.stringify(obj);
-        console.log(json);
-        request.send(json);
-        request.addEventListener('readystatechange', function () {
-            if (request.readyState < 4) {
-                statusMessage.innerHTML = message.loading;
-            } else if (request.readyState === 4 && request.status == 200) {
-                statusMessage.innerHTML = message.success;
-            } else {
-                statusMessage.innerHTML = message.failure;
+        function postData(formData) {
+            return new Promise((resolve, reject) => {
+                let request = new XMLHttpRequest();
+                request.open('POST', 'server.php');
+                request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                let obj = {};
+                formData.forEach((value, key) => {
+                    obj[key] = value;
+                });
+                let json = JSON.stringify(obj);
+
+                request.onreadystatechange = function()  {
+                    if (request.readyState < 4) {
+                         resolve();
+                    } else if (request.readyState === 4) {
+                        if (request.status == 200 && request.status < 300) {  
+                            resolve();
+                        }else {
+                            reject();
+                        }
+                    }
+                }
+                request.send(json);
+            });
+        } // end postData
+        function clearInput() {
+            for (let i = 0; i < input.length; i++) {
+                input[i].value = '';
             }
-        });
-        for (let i = 0; i < input.length; i++) {
-            input[i].value = '';
         }
+        postData(dataForm)
+            .then(()=> statusMessage.innerHTML = message.loading)
+            .then(()=> statusMessage.innerHTML = message.success)
+            .catch(()=> statusMessage.innerHTML = message.failure)
+            .then(clearInput);
+            
     }
-    
-    form.addEventListener('submit', function (event) {
+
+
+
+    form.addEventListener('submit', (event) => {
         let eventForm = event,
             target = event.target;
         postServerForm(eventForm, target);
     });
-   
-    contact.addEventListener('submit', function (event) {
+
+    contact.addEventListener('submit', (event) => {
         let eventForm = event,
             target = event.target;
         postServerForm(eventForm, target);
-        setTimeout(() => {
-            this.removeChild(statusMessage);
-        }, 3000);
+        clearInput();
     });
 
 });
