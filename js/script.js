@@ -85,17 +85,19 @@ window.addEventListener("DOMContentLoaded", function () {
         btnClose = document.querySelector(".popup-close"),
         descBtn = document.querySelectorAll(".description-btn");
 
-    function openModal() {
+    function openModal(element) {
+        element.addEventListener('click', () => {
         modal.style.display = "block";
         btnMore.classList.add("more-splash");
         document.body.style.overflow = "hidden";
+        });
+        
     }
 
-    btnMore.addEventListener('click', openModal);
-    descBtn[0].addEventListener('click', openModal);
-    descBtn[1].addEventListener('click', openModal);
-    descBtn[2].addEventListener('click', openModal);
-    descBtn[3].addEventListener('click', openModal);
+   openModal(btnMore);
+   descBtn.forEach((element)=> {
+    openModal(element);
+  });
 
     btnClose.addEventListener('click', function () {
         modal.style.display = "none";
@@ -133,7 +135,7 @@ window.addEventListener("DOMContentLoaded", function () {
                 });
                 let json = JSON.stringify(obj);
 
-                request.onreadystatechange = function()  {
+                request.onreadystatechange = () =>  {
                     if (request.readyState < 4) {
                          resolve();
                     } else if (request.readyState === 4) {
