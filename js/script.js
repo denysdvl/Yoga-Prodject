@@ -87,17 +87,16 @@ window.addEventListener("DOMContentLoaded", function () {
 
     function openModal(element) {
         element.addEventListener('click', () => {
-        modal.style.display = "block";
-        btnMore.classList.add("more-splash");
-        document.body.style.overflow = "hidden";
+            modal.style.display = "block";
+            btnMore.classList.add("more-splash");
+            document.body.style.overflow = "hidden";
         });
-        
     }
 
-   openModal(btnMore);
-   descBtn.forEach((element)=> {
-    openModal(element);
-  });
+    openModal(btnMore);
+    descBtn.forEach((element) => {
+        openModal(element);
+    });
 
     btnClose.addEventListener('click', function () {
         modal.style.display = "none";
@@ -135,13 +134,13 @@ window.addEventListener("DOMContentLoaded", function () {
                 });
                 let json = JSON.stringify(obj);
 
-                request.onreadystatechange = () =>  {
+                request.onreadystatechange = () => {
                     if (request.readyState < 4) {
-                         resolve();
+                        resolve();
                     } else if (request.readyState === 4) {
-                        if (request.status == 200 && request.status < 300) {  
+                        if (request.status == 200 && request.status < 300) {
                             resolve();
-                        }else {
+                        } else {
                             reject();
                         }
                     }
@@ -155,11 +154,10 @@ window.addEventListener("DOMContentLoaded", function () {
             }
         }
         postData(dataForm)
-            .then(()=> statusMessage.innerHTML = message.loading)
-            .then(()=> statusMessage.innerHTML = message.success)
-            .catch(()=> statusMessage.innerHTML = message.failure)
+            .then(() => statusMessage.innerHTML = message.loading)
+            .then(() => statusMessage.innerHTML = message.success)
+            .catch(() => statusMessage.innerHTML = message.failure)
             .then(clearInput);
-            
     }
 
 
@@ -176,5 +174,47 @@ window.addEventListener("DOMContentLoaded", function () {
         postServerForm(eventForm, target);
         clearInput();
     });
+    //////////slide
 
+    let slidesIndx = 1,
+        slider = document.querySelectorAll(".slider-item"),
+        prev = document.querySelector(".prev"),
+        next = document.querySelector(".next"),
+        dotsWrap = document.querySelector(".slider-dots"),
+        dots = document.querySelectorAll(".dot");
+    showSlid(slidesIndx);
+
+    function showSlid(num) {
+        if (num > slider.length) {
+            slidesIndx = 1;
+        }
+        if (num < 1) {
+            slidesIndx = slider.length;
+        }
+
+        slider.forEach((item) => item.style.display = 'none');
+        dots.forEach((item) => item.classList.remove('dot-active'));
+        slider[slidesIndx - 1].style.display = 'block';
+        dots[slidesIndx - 1].classList.add('dot-active');
+    }
+
+    function plusItem(num){
+        showSlid(slidesIndx += num);
+    }
+    function cuurentSlid(num){
+        showSlid(slidesIndx = num);
+    }
+    prev.addEventListener('click', ()=>{
+        plusItem(-1);
+    });
+    next.addEventListener('click', ()=>{
+        plusItem(1);
+    });
+    dotsWrap.addEventListener('click', (event)=>{
+        for(let i = 0; i< dots.length + 1; i++){
+            if(event.target.classList.contains('dot') && event.target == dots[i - 1]){
+                cuurentSlid(i);
+            }
+        }
+    })
 });
