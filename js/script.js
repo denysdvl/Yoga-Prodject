@@ -117,11 +117,20 @@ window.addEventListener("DOMContentLoaded", function () {
 
     statusMessage.classList.add('status');
 
-    function postServerForm(event, targetEvent) {
-        event.preventDefault();
-        console.log(event.target);
-        targetEvent.appendChild(statusMessage);
-        let dataForm = new FormData(targetEvent);
+
+
+
+  
+
+
+function PostDataForm(elementItem){
+    elementItem.addEventListener('submit', (event) => {
+        let eventForm = event,
+            target = event.target;
+            eventForm.preventDefault();
+        console.log(eventForm.target);
+        target.appendChild(statusMessage);
+        let dataForm = new FormData(target);
 
         function postData(formData) {
             return new Promise((resolve, reject) => {
@@ -158,22 +167,12 @@ window.addEventListener("DOMContentLoaded", function () {
             .then(() => statusMessage.innerHTML = message.success)
             .catch(() => statusMessage.innerHTML = message.failure)
             .then(clearInput);
-    }
-
-
-
-    form.addEventListener('submit', (event) => {
-        let eventForm = event,
-            target = event.target;
-        postServerForm(eventForm, target);
+    
+        
     });
-
-    contact.addEventListener('submit', (event) => {
-        let eventForm = event,
-            target = event.target;
-        postServerForm(eventForm, target);
-        clearInput();
-    });
+}
+PostDataForm(form);
+PostDataForm(contact);
     //////////slide
 
     let slidesIndx = 1,
