@@ -198,23 +198,58 @@ window.addEventListener("DOMContentLoaded", function () {
         dots[slidesIndx - 1].classList.add('dot-active');
     }
 
-    function plusItem(num){
+    function plusItem(num) {
         showSlid(slidesIndx += num);
     }
-    function cuurentSlid(num){
+
+    function cuurentSlid(num) {
         showSlid(slidesIndx = num);
     }
-    prev.addEventListener('click', ()=>{
+    prev.addEventListener('click', () => {
         plusItem(-1);
     });
-    next.addEventListener('click', ()=>{
+    next.addEventListener('click', () => {
         plusItem(1);
     });
-    dotsWrap.addEventListener('click', (event)=>{
-        for(let i = 0; i< dots.length + 1; i++){
-            if(event.target.classList.contains('dot') && event.target == dots[i - 1]){
+    dotsWrap.addEventListener('click', (event) => {
+        for (let i = 0; i < dots.length + 1; i++) {
+            if (event.target.classList.contains('dot') && event.target == dots[i - 1]) {
                 cuurentSlid(i);
             }
         }
-    })
+    });
+    //////////////////calc
+    let persons = document.querySelectorAll('.counter-block-input')[0],
+        restDays = document.querySelectorAll('.counter-block-input')[1],
+        place = document.getElementById('select'),
+        totalValue = document.getElementById('total'),
+        personsSum = 0,
+        daysSum = 0,
+        total = 0;
+
+    totalValue.innerHTML = 0;
+
+    function changInput(elemntInput) {
+        elemntInput.addEventListener('change', function () {
+            if (elemntInput == persons) {
+                personsSum = +this.value;
+                total = (daysSum + personsSum) * 4000;
+            } else if (elemntInput == restDays) {
+                daysSum = +this.value;
+                total = (daysSum + personsSum) * 4000;
+            }
+            if (restDays.value == '' || persons.value == '') {
+                totalValue.innerHTML = 0;
+            } else {
+                let a = total;
+                totalValue.innerHTML = a * place.options[place.selectedIndex].value;
+            }
+           
+        });
+    }
+    changInput(persons);
+    changInput(restDays);
+changInput(place);
+///////////////
 });
+
