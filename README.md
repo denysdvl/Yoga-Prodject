@@ -1,6 +1,11 @@
-### This is my web-project in which I want to show my skill<h2>
+### It's a web site about traveling to India <h2>
         
-In this project, I used different approaches and methods to write the **JavaScript** 
-and also processed them through a **webpackag**. 
-All the modules I used here you can find in my *git repositories* where I tried to 
-describe them in detail 
+This site is written in pure JavaScript and CSS, 
+this project used **AJAX, promise, ES-6, etc...** Interesting 
+solutions were also used. Descriptions of all classes 
+can be found at my repositories, also used compilation 
+of JavaScript modules via **webpack**
+
+Evaluate the design you can watch the demo.
+https://denysdvl.github.io/Yoga-Prodject/src/
+
