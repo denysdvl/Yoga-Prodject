@@ -16,32 +16,33 @@ function formPost() {
             let eventForm = event,
                 target = event.target;
             eventForm.preventDefault();
-            console.log(eventForm.target);
+            
             target.appendChild(statusMessage);
             let dataForm = new FormData(target);
 
             function postData(formData) {
                 return new Promise((resolve, reject) => {
                     let request = new XMLHttpRequest();
-                    request.open('POST', 'server.php');
+                    request.open('POST', '../../server.php');
                     request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
                     let obj = {};
                     formData.forEach((value, key) => {
                         obj[key] = value;
                     });
                     let json = JSON.stringify(obj);
-
-                    request.onreadystatechange = () => {
+                    console.log(json);
+                   
+                    request.onreadystatechange = function() {
                         if (request.readyState < 4) {
                             resolve();
                         } else if (request.readyState === 4) {
-                            if (request.status == 200 && request.status < 300) {
+                            if (request.status === 200 && request.status < 300) {
                                 resolve();
                             } else {
                                 reject();
                             }
                         }
-                    }
+                    };
                     request.send(json);
                 });
             } // end postData

@@ -1,9 +1,15 @@
-const path = require('path');
+'use strict';
+
+let path = require('path');
 
 module.exports = {
+  mode: 'development',
   entry: './src/js/script.js',
   output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist')
-  }
+    filename: 'bundle.js',
+    path: __dirname + '/dist/js'
+  },
+  watch: true,
+
+  devtool: "source-map"
 };
