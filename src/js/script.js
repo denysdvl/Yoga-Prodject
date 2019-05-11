@@ -16,4 +16,8 @@ window.addEventListener("DOMContentLoaded", function () {
     timer();
     tabs();
 
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> b7616ec31e69772f1684213c9429cf28385ff64c
